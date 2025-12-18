@@ -32,11 +32,11 @@ public class Estoque {
     public boolean cadastrarProduto(Produto produto) {
         if (produto == null)
             return false;
-        if (encontraProduto(produto.getId()) !=null)
+        if (encontraProduto(produto.getId()) != null)
             return false;
         listaDeProdutos.add(produto);
         return true;
-        }
+    }
 
     public void imprimeCatalogoDoEstoque() {
         System.out.println("Catálogo do estoque:");
@@ -54,28 +54,48 @@ public class Estoque {
 
         p.setQuantidadeEmEstoque(p.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
         return true;
-        }
+    }
 
-        public int getQuantidadeAtualEmEstoque() {
-            int total = 0;
-            for (Produto p : listaDeProdutos) {
-            total += p.getQuantidadeEmEstoque();
-            }
-            return total;
-        }
+    public boolean darBaixaEmEstoqueNaId(int idProduto, int quantidadeParaDarBaixa) {
+        Produto p = encontraProduto(idProduto);
+        if (p == null)
+            return false;
+        if (p.getQuantidadeEmEstoque() < quantidadeParaDarBaixa)
+            return false;
 
-        public int getEstoqueDoProdutoNaId(int id) {
-            Produto p = encontraProduto(id);
-            return (p != null ? p.getQuantidadeEmEstoque() : 0);
-        }
+        p.setQuantidadeEmEstoque(p.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
+        return true;
+    }
 
-        public boolean temEstoqueOuNao(int id, int quantidadeParaDarBaixa){
+
+    public int getQuantidadeAtualEmEstoque(Produto produto) {
+        return produto.getQuantidadeEmEstoque();
+    }
+
+    public int getEstoqueDoProdutoNaId(int id) {
         Produto p = encontraProduto(id);
+        return (p != null ? p.getQuantidadeEmEstoque() : 0);
+    }
+
+    public boolean temEstoqueOuNao(Produto produto, int quantidadeParaDarBaixa) {
+        Produto p = encontraProduto(produto.getId());
         if (p == null) return false;
 
         return p.getQuantidadeEmEstoque() >= quantidadeParaDarBaixa;
-        }
     }
+
+    public String getPosicaoDaLista(Produto produto) {
+        int posicao = 0;
+        for (Produto p : listaDeProdutos) {
+            if (p.getNome().equalsIgnoreCase(produto.getNome())) {
+                return produto.getNome() + " está na posiçao " + posicao + " do estoque";
+            }
+            posicao++;
+        }
+        return produto + "não existe no estoque!";
+    }
+    }
+
 
 
 
