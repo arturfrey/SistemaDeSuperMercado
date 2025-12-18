@@ -46,16 +46,16 @@ public class Pedido {
     }
 
 
-    public boolean adicionaItem(Estoque estoque, int idDoProduto, int quantidade) {
+    public boolean adicionaItem(Estoque estoque, Produto produto, int quantidade) {
 
-        Produto p = estoque.encontraProduto(idDoProduto);
+        Produto p = estoque.encontraProduto(produto.getId());
 
         if (p == null) {
             System.out.println("Produto não encontrado.");
             return false;
         }
 
-        if (!estoque.temEstoqueOuNao(idDoProduto, quantidade)) {
+        if (!estoque.temEstoqueOuNao(produto, quantidade)) {
             System.out.println("Estoque insuficiente.");
             return false;
         }
@@ -110,7 +110,7 @@ public class Pedido {
         for (int nota : notas) {
             int qtd = valor / nota;
             if (qtd > 0) {
-                System.out.println("Nota " + nota + ": " + qtd);
+                System.out.println("Nota de R$" + nota + ": " + qtd);
                 valor %= nota;
             }
         }
@@ -122,9 +122,12 @@ public class Pedido {
 
     int valor = (int) troco;
 
+        System.out.println("Menor quantidade de notas/moedas para o troco:");
+
         for (int nota : notas) {
         int qtd = valor / nota;
         if (qtd > 0) {
+            System.out.println("Nota de R$" + nota + ": " + qtd);
             valor %= nota;
         }}
     double[] moedas = {1.0, 0.50, 0.25, 0.10, 0.05};
@@ -142,7 +145,7 @@ public class Pedido {
         if (centavos >= 1.0) {
             System.out.println("Moeda de R$" + moeda + ": " + qtdd);
         }
-        else{System.out.println("Moeda de " + moeda + " centavos: " + qtdd);}
+        else{System.out.printf("Moeda de R$%.2f: %d\n", moeda, qtdd);}
     }
 
 
